@@ -18,3 +18,11 @@ export function validUsername(str) {
   const valid_map = ['admin', 'editor']
   return valid_map.indexOf(str.trim()) >= 0
 }
+/**
+ * @param {string} str
+ * @returns {Boolean}
+ * effect verify string is phone number
+ */
+export function validateMobile(str){
+  return /^1[3-9]\d{9}$/.test(str)
+} 

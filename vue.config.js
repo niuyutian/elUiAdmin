@@ -37,6 +37,15 @@ module.exports = {
       errors: true
     },
     // before: require('./mock/mock-server.js')
+    proxy:{
+      '/api':{   //url带有/api 就会触发这个也可以叫别的 也可以配置多个地址
+        target:'http://ihrm-java.itheima.net/', //目标地址->http://ihrm-java.itheima.net/api
+        changeOrigin:true, //是否支持跨域
+        pathRewrite:{
+          //这里面放置重写规则
+        }
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
