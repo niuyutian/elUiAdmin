@@ -10,8 +10,8 @@ export default {
         component:()=> import ('@/views/setting'),
         meta:{
             // 路由元信息, 可以放任何内容
-            title:'公司设置'
-
+            title:'公司设置',
+            icon:'setting'
         }
     }]
 }

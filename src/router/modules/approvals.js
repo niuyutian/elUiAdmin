@@ -10,8 +10,8 @@ export default {
         component:()=> import ('@/views/approvals'),
         meta:{
             // 路由元信息, 可以放任何内容
-            title:'审批'
-
+            title:'审批',
+            icon:'tree-table'
         }
     }]
 }

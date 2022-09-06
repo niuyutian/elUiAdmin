@@ -10,8 +10,8 @@ export default {
         component:()=> import ('@/views/social'),
         meta:{
             // 路由元信息, 可以放任何内容
-            title:'社保'
-
+            title:'社保',
+            icon:'table'
         }
     }]
 }

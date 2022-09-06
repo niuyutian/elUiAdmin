@@ -10,8 +10,8 @@ export default {
         component:()=> import ('@/views/permission'),
         meta:{
             // 路由元信息, 可以放任何内容
-            title:'权限管理'
-
+            title:'权限管理',
+            icon:'lock'
         }
     }]
 }

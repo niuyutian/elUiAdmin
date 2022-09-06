@@ -10,8 +10,8 @@ export default {
         component:()=> import ('@/views/employees'),
         meta:{
             // 路由元信息, 可以放任何内容
-            title:'员工管理'
-
+            title:'员工管理',
+            icon:'people'
         }
     }]
 }

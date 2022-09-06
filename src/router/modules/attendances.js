@@ -10,8 +10,8 @@ export default {
         component:()=> import ('@/views/attendances'),
         meta:{
             // 路由元信息, 可以放任何内容
-            title:'考勤'
-
+            title:'考勤',
+            icon:'skill'
         }
     }]
 }
