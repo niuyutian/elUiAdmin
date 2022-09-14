@@ -115,3 +115,20 @@ export function param2Obj(url) {
   })
   return obj
 }
+/**
+ *  将平铺数据转为树形数据
+ */
+export function tranListToTreeDate(list,rootValue){
+  let arr=[]
+    list.forEach(item=>{
+      if(item.pid==rootValue){
+        // 找到头,就要去找item 下面有没有子节点
+        const children= tranListToTreeDate(list,item.id)
+        if(children.length){
+          item.children=children
+        } 
+        arr.push(item)
+      } 
+    })
+    return arr
+}

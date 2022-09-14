@@ -2,41 +2,73 @@
   <div class="dashboard-container">
     <div class="app-container">
       <!-- 组织架构 -->
-      <el-card class="tree-card">
-          <el-row type="flex" justify="space-between" align="middle" style="height:40px">
-            <el-col >
-              <span>江苏江南水务股份有限公司 </span>
-            </el-col>
-            <el-col  :span="4">
-                <el-row  type="flex" justify="end">
-                  <el-col>负责人</el-col>
-                  <el-col>
-                    <el-dropdown>
-                        <span>操作 <i class="el-icon-arrow-down"></i></span>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>
-                              添加子部门
-                            </el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                  </el-col>
-                </el-row>
-            </el-col>
-          </el-row>
+      <el-card class="tree-card" @addDepts="addDepts">
+        <treeTools :treeNode="company" :isRoot="true"/>
+        <el-tree
+          :data="departs"
+          show-checkbox
+          node-key="id"
+          :default-expanded-keys="[2, 3]"
+          :default-checked-keys="[5]"
+          :props="defaultProps"
+        >
+          <treeTools slot-scope="{ data }" :treeNode="data"  @addDepts="addDepts"  @delDepts="getDepartments"/>
+        </el-tree>
       </el-card>
     </div>
+    <addDept :showDialog="showDialog"/>  
   </div>
 </template>
 
 <script>
+import treeTools from "./components/tree-tools.vue";
+import addDept from "./components/addDept.vue";
+import {getDepartments} from "@/api/departments"
+import {tranListToTreeDate} from '@/utils/index'
 export default {
+  components: {
+    treeTools,
+    addDept
+  },
+  data() {
+    return {
+      departs: [
 
-}
+      ],
+      defaultProps: {
+        children: "children",
+        label: "name",
+      },
+      company:{
+      },
+      showDialog:false,
+      node:null //记录当前点击的node节点
+    };
+  },
+  created() {
+      this.getDepartments()
+  },
+  methods: {
+    async getDepartments(){
+      let res= await getDepartments();
+      this.company={
+        name:res.companyName,
+        manager:"负责人"
+      };
+      console.log(res.depts);
+      this.departs=tranListToTreeDate(res.depts,"")
+    },
+    addDepts(node){
+      this.showDialog=true  
+      this.node=node
+    }
+  },
+};
 </script>
 
 <style scoped>
-  .tree-card{
-    padding: 30px 150px;
-    font-size:14px
-  }
+.tree-card {
+  padding: 30px 150px;
+  font-size: 14px;
+}
 </style>

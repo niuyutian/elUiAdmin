@@ -40,6 +40,11 @@ module.exports = {
     proxy:{
       '/api':{   //url带有/api 就会触发这个也可以叫别的 也可以配置多个地址
         target:'http://ihrm-java.itheima.net/', //目标地址->http://ihrm-java.itheima.net/api
+        // target:'http://ihrm.itheima.net/api/',
+        // target:'http://ihrm.itheima.net',
+        // target:'http://ihrm-dev.itheima.net/',
+        // target:'http://ihrm-test.itheima.net/',
+        // target:'http://ihrm-prod.itheima.net/',
         changeOrigin:true, //是否支持跨域
         pathRewrite:{
           //这里面放置重写规则
