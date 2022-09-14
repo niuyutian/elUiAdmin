@@ -51,8 +51,9 @@ export default {
     //
     operateDepts(type) {
       if (type == "add") {
-        this.$emit('addDepts',this.treeNode)
+        this.$emit('addDepts',this.treeNode);
       } else if (type == "edit") {
+        this.$emit('editDepts',this.treeNode);
       } else {
         this.$confirm("您确定要删除该组织部门吗?")
           .then(() => {
