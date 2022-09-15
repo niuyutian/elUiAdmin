@@ -6,7 +6,7 @@
     style="height: 40px; width: 100%"
   >
     <el-col :span="24">
-      <span>{{ treeNode.name }} </span>
+      <span> <i class="el-icon-s-custom" v-if="treeNode.name!=='江苏传智播客教育科技股份有限公司'"></i> <i class="el-icon-menu" v-else></i> {{ treeNode.name }} </span>
     </el-col>
     <el-col :span="4">
       <el-row type="flex" justify="end">
@@ -66,7 +66,9 @@ export default {
       }
     },
   },
-  created() {},
+  created() {
+    console.log(this.treeNode);
+  },
   mounted() {},
 };
 </script>

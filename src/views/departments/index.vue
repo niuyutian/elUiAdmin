@@ -11,6 +11,7 @@
           :default-expanded-keys="[2, 3]"
           :default-checked-keys="[5]"
           :props="defaultProps"
+          :default-expand-all="true"
         >
           <treeTools
             slot-scope="{ data }"
@@ -74,7 +75,7 @@ export default {
     editDepts(node) {
       this.showDialog = true;
       this.node = node;
-      this.$refs.addDept.getDepartDetail(node.id)
+      this.$refs.addDept.getDepartDetail(node.id);
     },
   },
 };
