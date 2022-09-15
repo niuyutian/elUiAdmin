@@ -13,5 +13,14 @@ export default {
             title:'员工管理',
             icon:'people'
         }
+    },{
+        path:'detail/:id?', //动态路由参数 这里如果不写这个? 那就是 只能穿了id 才能访问  加了? 是有没有id 都可以
+        component:()=> import ('@/views/employees/detail'),
+        hidden:true,
+        meta:{
+            // 路由元信息, 可以放任何内容
+            title:'员工详情',
+            // icon:'people'
+        }
     }]
 }
