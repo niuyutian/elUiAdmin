@@ -5,6 +5,7 @@
       <span slot="before">111</span>
         <el-button slot="after" type="primary">导入excel</el-button>
     </PageTools>
+    <upLoadExcel/>
   </div>
 </template>
 
