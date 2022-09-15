@@ -4,9 +4,15 @@
       <PageTools :showBefore="true">
         <span slot="before">{{ page.total }}</span>
         <template v-slot:after>
-          <el-button size="small" type="success" @click="$router.push('import')">excel导入</el-button>
-          <el-button size="small" type="danger">excel导出</el-button>
-          <el-button size="small" type="primary" @click="showDialog=true">新增员工</el-button>
+          <el-button size="small" type="success" @click="$router.push('import')"
+            >excel导入</el-button
+          >
+          <el-button size="small" type="danger" @click="exportData"
+            >excel导出</el-button
+          >
+          <el-button size="small" type="primary" @click="showDialog = true"
+            >新增员工</el-button
+          >
         </template>
       </PageTools>
       <el-table border v-loading="loading" :data="list">
@@ -63,7 +69,7 @@
           :current-page="page.page"
         />
       </el-row>
-      <addEmployee :showDialog.sync="showDialog"/>
+      <addEmployee :showDialog.sync="showDialog" />
     </div>
   </div>
 </template>
@@ -73,6 +79,8 @@ import { getEmployeeList, delEmployee } from "@/api/employees";
 // 引入枚举对象
 import employees from "@/api/constant/employees";
 import addEmployee from "./commponents/addEmployee.vue";
+import { formatDate } from "@/filters/index.js";
+
 export default {
   components: {
     addEmployee,
@@ -86,7 +94,7 @@ export default {
         total: 0,
       },
       loading: false,
-      showDialog:false
+      showDialog: false,
     };
   },
   created() {
@@ -120,6 +128,66 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    exportData() {
+      const headers = {
+        手机号: "mobile",
+        姓名: "username",
+        入职日期: "timeOfEntry",
+        聘用形式: "formOfEmployment",
+        转正日期: "correctionTime",
+        工号: "workNumber",
+        部门: "departmentName",
+      };
+      import("@/vendor/Export2Excel").then(async (excel) => {
+        try {
+          const { rows } = await getEmployeeList({
+            page: 1,
+            size: this.page.total,
+          });
+          let data = this.formatJson(headers, rows);
+          const mutiHeadet =[['姓名','主要信息','','','','','部门']];
+          const merges =['A1:A2',"B1:F1","G1:G2"]
+          excel.export_json_to_excel({
+            header: Object.keys(headers),
+            data,
+            filename: "员工工资表",
+            mutiHeadet,
+            merges
+          });
+        } catch (error) {
+          console.log(error);
+        }
+        // excel.export_json_to_excel({
+        //   header: ["姓名", "工资"],
+        //   data: [
+        //     ["张三", "100350"],
+        //     ["李四", "150530"],
+        //   ],
+        //   filename: "员工工资表",
+        //   // bookType:'txt'
+        // });
+      });
+    },
+    formatJson(headers, rows) {
+      return rows.map((item) => {
+        return Object.keys(headers).map((key) => {
+          if (
+            headers[key] == "timeOfEntry" ||
+            headers[key] == "correctionTime"
+          ) {
+            return formatDate(item[headers[key]]);
+          } else if (headers[key] === "formOfEmployment") {
+            // return
+            const obj = employees.hireType.find(
+              (obj) => obj.id === item[headers[key]]
+            );
+            return obj ? obj.value : "未知";
+          }
+          return item[headers[key]];
+        });
+      });
+      // return;
     },
   },
 };
