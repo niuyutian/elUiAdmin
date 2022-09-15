@@ -1,6 +1,6 @@
 <template>
   <el-card class="page-tooles">
-    <el-row type="flex" justofy="space-between" align="middle">
+    <el-row type="flex" justify="space-between" align="middle">
       <el-col>
         <!-- 有名字叫具名插槽 ,没有的叫匿名插槽-->
         <div v-if="showBefore" class="before">
@@ -9,7 +9,7 @@
         </div>
       </el-col>
       <el-col>
-        <el-row type="flex" justofy="end">
+        <el-row type="flex" justify="end">
           <slot name="after" />
         </el-row>
       </el-col>
