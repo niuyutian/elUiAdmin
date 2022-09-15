@@ -6,7 +6,7 @@
         <template v-slot:after>
           <el-button size="small" type="success">excel导入</el-button>
           <el-button size="small" type="danger">excel导出</el-button>
-          <el-button size="small" type="primary">新增员工</el-button>
+          <el-button size="small" type="primary" @click="showDialog=true">新增员工</el-button>
         </template>
       </PageTools>
       <el-table border v-loading="loading" :data="list">
@@ -63,6 +63,7 @@
           :current-page="page.page"
         />
       </el-row>
+      <addEmployee :showDialog.sync="showDialog"/>
     </div>
   </div>
 </template>
@@ -71,8 +72,11 @@
 import { getEmployeeList, delEmployee } from "@/api/employees";
 // 引入枚举对象
 import employees from "@/api/constant/employees";
-
+import addEmployee from "./commponents/addEmployee.vue";
 export default {
+  components: {
+    addEmployee,
+  },
   data() {
     return {
       list: [],
@@ -82,6 +86,7 @@ export default {
         total: 0,
       },
       loading: false,
+      showDialog:false
     };
   },
   created() {
@@ -109,9 +114,9 @@ export default {
     async delEmployee(id) {
       try {
         await this.$confirm("确定删除该员工?");
-        await delEmployee(id)
-        this.$message.success('删除员工成功');
-        this.getEmployeeList()
+        await delEmployee(id);
+        this.$message.success("删除员工成功");
+        this.getEmployeeList();
       } catch (error) {
         console.log(error);
       }
