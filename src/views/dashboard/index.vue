@@ -6,6 +6,7 @@
         <el-button slot="after" type="primary">导入excel</el-button>
     </PageTools>
     <upLoadExcel/>
+    <ImgUpload/>
   </div>
 </template>
 

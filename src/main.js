@@ -18,12 +18,14 @@ import * as filters from '@/filters'
 import '@/icons' // icon
 import '@/permission' // permission control
 import * as directives from '@/directives'
+
+import  Print from 'vue-print-nb'
 Vue.use(Components)
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
-
+Vue.use(Print)
 // 注册指令
 Object.keys(directives).forEach(key=>{
   Vue.directive(key,directives[key])

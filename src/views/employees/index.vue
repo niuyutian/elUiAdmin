@@ -18,6 +18,12 @@
       <el-table border v-loading="loading" :data="list">
         <el-table-column label="序号" type="index" sortable="" />
         <el-table-column label="姓名" sortable="" prop="username" />
+        <el-table-column label="头像" width="120px" align="center">
+          <template slot-scope="{row}" >
+            <img @click="showQrCode(row.staffPhoto)" v-imagerror="require('@/assets/common/head.jpg')" :src="row.staffPhoto" alt="" style="border-radius: 50%; width: 100px; height: 100px; padding: 10px">
+          </template>
+        </el-table-column>
+
         <el-table-column label="工号" sortable="" prop="workNumber" />
         <el-table-column
           label="聘用形式"
@@ -52,7 +58,7 @@
             <el-button type="text" size="small">转正</el-button>
             <el-button type="text" size="small">调岗</el-button>
             <el-button type="text" size="small">离职</el-button>
-            <el-button type="text" size="small">角色</el-button>
+            <el-button type="text" size="small" @click="editRole(row.id)">角色</el-button>
             <el-button type="text" size="small" @click="delEmployee(row.id)"
               >删除</el-button
             >
@@ -69,7 +75,13 @@
           :current-page="page.page"
         />
       </el-row>
-      <addEmployee :showDialog.sync="showDialog" />
+      <addEmployee :showDialog.sync="showDialog"  />
+      <el-dialog title="图片详情" :visible="showCodeDialog" @close="showCodeDialog=false">
+         <el-row  type="flex" justify ="center">
+            <canvas ref="myCanvas"></canvas>
+         </el-row>
+      </el-dialog>
+      <AssignRole ref="asyRole" :showRoleDialog.sync="showRoleDialog" :userId="userId"/>
     </div>
   </div>
 </template>
@@ -80,10 +92,12 @@ import { getEmployeeList, delEmployee } from "@/api/employees";
 import employees from "@/api/constant/employees";
 import addEmployee from "./commponents/addEmployee.vue";
 import { formatDate } from "@/filters/index.js";
-
+import QrCode from 'qrcode';
+import AssignRole from './commponents/asign-role.vue'
 export default {
   components: {
     addEmployee,
+    AssignRole
   },
   data() {
     return {
@@ -95,6 +109,9 @@ export default {
       },
       loading: false,
       showDialog: false,
+      showCodeDialog:false,
+      showRoleDialog:false,
+      userId:null
     };
   },
   created() {
@@ -189,6 +206,24 @@ export default {
       });
       // return;
     },
+    showQrCode(code){  
+      if(code){
+        this.showCodeDialog=true
+        this.$nextTick(()=>{
+        QrCode.toCanvas(this.$refs.myCanvas,"高倩我爱你")
+
+        })
+
+      }else{
+        this.$message.warning('该用户暂未上传头像')
+      }
+
+    },
+    async editRole(id){
+      this.userId=id;
+      await this.$refs.asyRole.getUserDetailById(id);
+      this.showRoleDialog=true;
+    }
   },
 };
 </script>
