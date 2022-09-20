@@ -3,7 +3,7 @@ import Layout from '@/layout'
 export default {
     path:"/permission",
     component:Layout,
-    name:'permission', //后面权限会用到
+    name:'permissions', //后面权限会用到
     children:[{
         path:'', //这里不用写,表示/employees 不但有布局layout 还有用主页
         //二级路由什么都不用写的时候,表示二级路由的默认路由
